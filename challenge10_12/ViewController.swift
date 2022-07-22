@@ -28,16 +28,35 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate & U
             save()
         }
         
-        
         // Add navigation bar
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewItem))
     }
     
     @objc func addNewItem() {
         let picker = UIImagePickerController()
-        picker.allowsEditing = true
-        picker.delegate = self
-        present(picker, animated: true)
+        let ac = UIAlertController(title: "Use camera", message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "Camera", style: .default) {
+            [weak self] action in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                picker.sourceType = .camera
+            } else {
+                let acError = UIAlertController(title: "Your phone don't have camera, use gallery instead", message: nil, preferredStyle: .alert)
+                acError.addAction(UIAlertAction(title: "Use gallery", style: .cancel))
+                self?.present(acError, animated: true)
+            }
+            picker.allowsEditing = true
+            picker.delegate = self
+            self?.present(picker, animated: true)
+        })
+        ac.addAction(UIAlertAction(title: "Gallery", style: .default) {
+                   [weak self] action in
+                       picker.allowsEditing = true
+                       picker.delegate = self
+                       self?.present(picker, animated: true)
+               })
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+               
+        present(ac, animated: true)
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -50,7 +69,7 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate & U
             try? jpegData.write(to: imagePath)
         }
         
-        let item = Item(image: imageName, title: "Unknown", subtitle: "Unknown site web")
+        let item = Item(image: imageName, title: "Unknown sdfdslj klsdjfldsjf sdklfjlsdkfjsd klsdjflkdsjf", subtitle: "Unknown site web skldjflsdj skldjflkds ksdljfklds kdjf dksjfldskf")
         items.append(item)
         save()
         tableView.reloadData()
@@ -83,6 +102,23 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate & U
         cell.container.layer.cornerRadius = 10
         cell.container.layer.masksToBounds = true
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = items[indexPath.row]
+        
+        let ac = UIAlertController(title: "Modify yout title", message: nil, preferredStyle: .alert)
+        ac.addTextField()
+        ac.addAction(UIAlertAction(title: "cancel", style: .cancel))
+        let submitAction = UIAlertAction(title: "Ok", style: .default) {
+            [weak self, weak ac] _ in
+            guard let newName = ac?.textFields?[0].text else {return}
+            item.title = newName
+            self?.save()
+            self?.tableView.reloadData()
+        }
+        ac.addAction(submitAction)
+        present(ac, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
