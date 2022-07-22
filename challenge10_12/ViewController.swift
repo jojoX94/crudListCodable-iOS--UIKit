@@ -7,10 +7,14 @@
 
 import UIKit
 
-class ViewController: UITableViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class ViewController: UITableViewController, UIImagePickerControllerDelegate , UISearchBarDelegate, UINavigationControllerDelegate {
     
     var items = [Item]()
+    var initItems = [Item]()
+    var filterITems = [Item]()
     let defaults = UserDefaults.standard
+    
+    @IBOutlet var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +31,34 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate & U
             items = [Item(image: "", title: "Instagram", subtitle: "https://www.instagram.com"), Item(image: "", title: "Instagram", subtitle: "https://www.instagram.com")]
             save()
         }
+        initItems = items
+        
+        // Appearance of navbar
+        if #available(iOS 15.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground()
+            appearance.backgroundColor = UIColor.init(white: 1, alpha: 0.7)
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance =
+            navigationController?.navigationBar.standardAppearance
+        }else{
+            navigationController?.navigationBar.backgroundColor = UIColor.init(white: 1, alpha: 0.7)
+        }
         
         // Add navigation bar
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewItem))
+        searchBar.delegate = self
+        searchBar.placeholder = "Search your items"
+        navigationItem.titleView = searchBar
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewItem))
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterITems = searchText.isEmpty ? initItems : initItems.filter {
+            $0.title.lowercased().contains(searchText.lowercased() )
+        }
+        items = filterITems
+        tableView.reloadData()
     }
     
     @objc func addNewItem() {
@@ -107,18 +136,31 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate & U
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = items[indexPath.row]
         
-        let ac = UIAlertController(title: "Modify yout title", message: nil, preferredStyle: .alert)
-        ac.addTextField()
-        ac.addAction(UIAlertAction(title: "cancel", style: .cancel))
-        let submitAction = UIAlertAction(title: "Ok", style: .default) {
-            [weak self, weak ac] _ in
-            guard let newName = ac?.textFields?[0].text else {return}
-            item.title = newName
+        let acChoice = UIAlertController(title: "Rename or delete person", message: nil, preferredStyle: .actionSheet)
+        acChoice.addAction(UIAlertAction(title: "Rename", style: .default) {
+            [weak self] action in
+            let ac = UIAlertController(title: "Rename title", message: nil, preferredStyle: .alert)
+            ac.addTextField()
+            ac.addAction(UIAlertAction(title: "cancel", style: .cancel))
+            ac.addAction(UIAlertAction(title: "ok", style: .default) {
+                [weak self, weak ac] _ in
+                guard let newName = ac?.textFields?[0].text else {return}
+                item.title = newName
+                self?.save()
+                self?.tableView.reloadData()
+            })
+            
+            self?.present(ac, animated: true)
+        })
+        acChoice.addAction(UIAlertAction(title: "Delete", style: .default) {
+            [weak self] action in
+            self?.items.remove(at: indexPath.row)
+            self?.tableView.deleteRows(at: [indexPath], with: .bottom)
             self?.save()
             self?.tableView.reloadData()
-        }
-        ac.addAction(submitAction)
-        present(ac, animated: true)
+        })
+        acChoice.addAction(UIAlertAction(title: "Cancel", style: .default))
+        present(acChoice, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

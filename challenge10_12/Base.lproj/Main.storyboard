@@ -126,8 +126,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="sSX-If-4gG"/>
+                    <connections>
+                        <outlet property="searchBar" destination="8Nu-ws-an9" id="oE9-iU-fb2"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oLR-g4-4X7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <searchBar contentMode="redraw" id="8Nu-ws-an9">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
             </objects>
             <point key="canvasLocation" x="1055.072463768116" y="94.419642857142847"/>
         </scene>
