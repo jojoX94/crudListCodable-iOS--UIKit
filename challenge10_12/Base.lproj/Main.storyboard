@@ -65,7 +65,7 @@
                                                             <color key="tintColor" systemColor="systemYellowColor"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4,2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8J-AK-Euy">
-                                                            <rect key="frame" x="283.5" y="19.5" width="24.5" height="21"/>
+                                                            <rect key="frame" x="281.5" y="19.5" width="24.5" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -73,7 +73,8 @@
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstItem="O8J-AK-Euy" firstAttribute="trailing" secondItem="z8e-ms-qzb" secondAttribute="trailing" constant="-24" id="IgD-ba-HQw"/>
+                                                        <constraint firstItem="O8J-AK-Euy" firstAttribute="trailing" secondItem="z8e-ms-qzb" secondAttribute="trailing" constant="-26" id="I4A-Pv-hLo"/>
+                                                        <constraint firstAttribute="trailing" secondItem="z8e-ms-qzb" secondAttribute="trailing" constant="22" id="V5s-lI-Lot"/>
                                                         <constraint firstItem="z8e-ms-qzb" firstAttribute="centerY" secondItem="FQN-Uy-Nee" secondAttribute="centerY" id="WPI-BN-mfK"/>
                                                         <constraint firstItem="pDb-1V-UCi" firstAttribute="height" secondItem="QnP-g1-o6C" secondAttribute="height" id="XFI-Gu-dLs"/>
                                                         <constraint firstAttribute="height" constant="60" id="Zaq-20-fBo"/>

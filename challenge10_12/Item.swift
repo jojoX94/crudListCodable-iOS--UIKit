@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Item: NSObject {
+class Item: NSObject, Codable {
 
     var image: String
     var title: String
