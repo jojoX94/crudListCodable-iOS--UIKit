@@ -10,10 +10,24 @@ import UIKit
 class ViewController: UITableViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     var items = [Item]()
-
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        items = [Item(image: "", title: "Instagram", subtitle: "https://www.instagram.com"), Item(image: "", title: "Instagram", subtitle: "https://www.instagram.com")]
+        
+        if let savedData = defaults.object(forKey: "itemData") as? Data {
+            let JsonDecoder = JSONDecoder()
+            
+            do {
+                items = try JsonDecoder.decode([Item].self, from: savedData)
+            } catch {
+                print("Failed to decode data")
+            }
+        } else {
+            items = [Item(image: "", title: "Instagram", subtitle: "https://www.instagram.com"), Item(image: "", title: "Instagram", subtitle: "https://www.instagram.com")]
+            save()
+        }
+        
         
         // Add navigation bar
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewItem))
@@ -38,6 +52,7 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate & U
         
         let item = Item(image: imageName, title: "Unknown", subtitle: "Unknown site web")
         items.append(item)
+        save()
         tableView.reloadData()
         
         dismiss(animated: true)
@@ -74,6 +89,14 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate & U
         return 214
     }
     
+    func save() {
+        let jsonEncode = JSONEncoder()
+        if let savedData = try? jsonEncode.encode(items) {
+            defaults.set(savedData, forKey: "itemData")
+        } else {
+            print("Failed to encode data")
+        }
+    }
 
 }
 

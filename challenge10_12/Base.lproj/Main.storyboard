@@ -51,12 +51,12 @@
                                                     <rect key="frame" x="0.0" y="130" width="354" height="60"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QnP-g1-o6C">
-                                                            <rect key="frame" x="20" y="14.5" width="90" height="31"/>
+                                                            <rect key="frame" x="20" y="14.5" width="111" height="31"/>
                                                             <state key="normal" title="Button"/>
-                                                            <buttonConfiguration key="configuration" style="filled" title="Fotografía"/>
+                                                            <buttonConfiguration key="configuration" style="filled" title="Photographie"/>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pDb-1V-UCi">
-                                                            <rect key="frame" x="130" y="14.5" width="62" height="31"/>
+                                                            <rect key="frame" x="151" y="14.5" width="62" height="31"/>
                                                             <state key="normal" title="Button"/>
                                                             <buttonConfiguration key="configuration" style="filled" title="Video"/>
                                                         </button>
